@@ -1,22 +1,26 @@
 def solution(stones, k):
-    answer = 0
+    answer = []
     stones = [max(stones) + 1] + stones
-    k_list = [1]*(len(stones)+1)
-    while 1:
-        min_value = min(stones)
-        answer += min_value
-        new_stone = []
-        new_k_list = []
-        for i in range(len(stones)):
-            if stones[i] <= min_value:
-                new_k_list[-1] += k_list[i]
-                if new_k_list[-1] > k:
-                    return answer
+    lo, hi = 1, 200000000
+    while lo <= hi:
+        k_list = [1]
+        mid = (lo + hi)//2
+        flag = 0
+        for s in stones:
+            if s < mid:
+                k_list[-1] += 1
+                if k_list[-1] > k:
+                    flag = 1
+                    break
             else:
-                new_stone.append(stones[i] - min_value)
-                new_k_list.append(k_list[i])
-        stones = new_stone
-        k_list = new_k_list
+                k_list.append(1)
+        if flag:
+            hi = mid - 1
+        else:
+            answer.append(mid)
+            lo = mid + 1
+    return max(answer)
+
 
 stones=[2, 4, 5, 3, 2, 1, 4, 2, 5, 1]
 k = 3
