@@ -1,24 +1,21 @@
 def solution(stones, k):
     answer = []
-    stones = [max(stones) + 1] + stones
     lo, hi = 1, 200000000
     while lo <= hi:
-        k_list = [1]
         mid = (lo + hi)//2
-        flag = 0
-        for s in stones:
-            if s < mid:
-                k_list[-1] += 1
-                if k_list[-1] > k:
-                    flag = 1
-                    break
+        cnt = 0
+        for stone in stones:
+            if stone - mid < 0:
+                cnt += 1
             else:
-                k_list.append(1)
-        if flag:
+                cnt = 0
+            if cnt >= k:
+                break
+        if cnt >= k:
             hi = mid - 1
         else:
-            answer.append(mid)
             lo = mid + 1
+            answer.append(mid)
     return max(answer)
 
 
