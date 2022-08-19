@@ -1,37 +1,30 @@
+from collections import defaultdict
 def find(a, parent):
-    if parent[a] == a:
+    if parent[a] == 0 or parent[a] == a:
+        parent[a] = a
         return parent[a]
     parent[a] = find(parent[a], parent)
     return parent[a]
 
 
-def union(a,b, parent):
+def union(a, b, parent):
     A, B = find(a, parent), find(b, parent)
     if A < B:
-        parent[a] = B
+        parent[A] = B
     else:
-        parent[b] = A
+        parent[B] = A
 
 
 def solution(k, room_number):
     answer = []
-    parent = [i for i in range(k+1)]
-    check = [0]*(k+1)
+    parent = defaultdict(int)
     for room in room_number:
-        if check[room] == 0:
-            check[room] = 1
-            answer.append(room)
-        else:
-            next = room + 1
-            next_parent = find(next, parent)
-            while check[next_parent]:
-                union(room, next_parent, parent)
-                next_parent = find(next_parent + 1, parent)
-            check[next_parent] = 1
-            answer.append(next_parent)
+        now = find(room, parent)
+        answer.append(now)
+        union(now, find(now+1, parent), parent)
     return answer
 
 
 k = 10
-room_number = [1,3,4,1,3,1]
+room_number = [1, 3, 4, 1, 3, 1]
 print(solution(k, room_number))
