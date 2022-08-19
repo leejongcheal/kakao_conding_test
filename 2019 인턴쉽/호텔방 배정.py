@@ -1,3 +1,7 @@
+import sys
+sys.setrecursionlimit(10 ** 7)
+# input = sys.stdin.readline
+# 요거 까지는 굳이 안써도 상관없음
 from collections import defaultdict
 def find(a, parent):
     if parent[a] == 0 or parent[a] == a:
@@ -21,7 +25,7 @@ def solution(k, room_number):
     for room in room_number:
         now = find(room, parent)
         answer.append(now)
-        union(now, find(now+1, parent), parent)
+        union(now, now+1, parent)
     return answer
 
 
