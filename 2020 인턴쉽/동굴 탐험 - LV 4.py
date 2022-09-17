@@ -36,6 +36,7 @@ def solution(n, path, order):
             return False
         check[a] = 1
         check[b] = a
+
     while 1:
         prev_key = len(now_key)
         bfs(visit_key, graph, check, now_key, visit_n)
